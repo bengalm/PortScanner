@@ -25,15 +25,29 @@ public class PortScanner {
         BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
       //  String ipOrCidr = "";
         int thred;
-        if (args[2].isEmpty())
-            thred=200;
-        else
+        if (args.length>=3)
             thred=Integer.parseInt(args[2]);
 
+        else
+            thred=200;
+        String ipOrCidr="";
+        if(args.length>=1){
+            ipOrCidr =args[0]+"/24";
+        }else {
+            out.println("Please enter IP");
+            return;
+        }
 
-        String ipOrCidr =args[0]+"/24";
+
         //int port;
-        int port=Integer.parseInt(args[1]);
+        int port=0;
+        if(args.length>=2){
+            port =Integer.parseInt(args[1]);
+        }else {
+            out.println("Please enter Port");
+            return;
+        }
+
         Integer level = 0;
         final List<String> arguments = new ArrayList<>();
         if(args.length > 1){
@@ -54,7 +68,7 @@ public class PortScanner {
 
         while (true) {
             //如果有值跳出
-            if (port!=0&&!ipOrCidr.isEmpty())
+            if (port!=0&&!ipOrCidr.isEmpty()&&!ipOrCidr.equals(""))
                 break;
             if (level == 1) {
                 if (port==0)
@@ -62,7 +76,7 @@ public class PortScanner {
                 else
                     break;
             } else {
-                if (ipOrCidr.isEmpty()) {
+                if (ipOrCidr.isEmpty()&&!ipOrCidr.equals("")) {
                     out.println("Please enter an IP/CIDR to scan. Formats accepted: 198.0.0.1/32 or 192.0.0.0/24");
                 }
                 else{
